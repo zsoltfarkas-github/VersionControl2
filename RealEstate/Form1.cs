@@ -26,7 +26,7 @@ namespace RealEstate
         {
             InitializeComponent();
             LoadData();
-            dataGridView1.DataSource = context;
+            dataGridView1.DataSource = Flats;
             CreateExcel();
         }
 
@@ -62,7 +62,27 @@ namespace RealEstate
         }
 
         private void CreateTable()
-        { 
+        {
+            string[] headers = new string[9]
+            {
+                "Kód",
+                "Eladó",
+                "Oldal",
+                "Kerület",
+                "Lift",
+                "Szobák száma",
+                "Alapterület (m2)",
+                "Ár (mFt)",
+                "Négyzetméter ár (Ft/m2)"
+            };
+
+            for (int i = 0; i < headers.Length; i++)
+            {
+                XlSheet.Cells[1, i + 1] = headers[i];
+            }
+
+            object[,] values;
+
         }
 
     }
