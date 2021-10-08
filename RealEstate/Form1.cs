@@ -81,8 +81,36 @@ namespace RealEstate
                 XlSheet.Cells[1, i + 1] = headers[i];
             }
 
-            object[,] values;
+            object[,] values = new object[Flats.Count, headers.Length];
 
+            int counter = 0;
+            foreach (var flat in Flats)
+            {
+                values[counter, 0] = flat.Code;
+                counter++;
+            }
+
+            var range = XlSheet.get_Range(
+                GetCell(2, 1),
+                GetCell(values.GetLength(0), values.GetLength(1)));
+            range.Value2 = values;
+        }
+
+        private string GetCell(int x, int y)
+        {
+            string ExcelCoordinate = "";
+            int dividend = y;
+            int modulo;
+
+            while (dividend > 0)
+            {
+                modulo = (dividend - 1) % 26;
+                ExcelCoordinate = Convert.ToChar(65 + modulo).ToString() + ExcelCoordinate;
+                dividend = (int)((dividend - modulo) / 26);
+            }
+            ExcelCoordinate += x.ToString();
+
+            return ExcelCoordinate;
         }
 
     }
