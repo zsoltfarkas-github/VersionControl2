@@ -87,6 +87,14 @@ namespace RealEstate
             foreach (var flat in Flats)
             {
                 values[counter, 0] = flat.Code;
+                values[counter, 1] = flat.Vendor;
+                values[counter, 2] = flat.Side;
+                values[counter, 3] = flat.District;
+                values[counter, 4] = flat.Elevator;
+                values[counter, 5] = flat.NumberOfRooms;
+                values[counter, 6] = flat.FloorArea;
+                values[counter, 7] = flat.Price;
+                values[counter, 8] = "";
                 counter++;
             }
 
