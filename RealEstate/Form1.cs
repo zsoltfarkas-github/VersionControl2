@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Reflection;
 
 namespace RealEstate
 {
@@ -19,6 +21,8 @@ namespace RealEstate
         public Form1()
         {
             InitializeComponent();
+            LoadData();
+            dataGridView1.DataSource = context;
         }
 
         private void LoadData()
