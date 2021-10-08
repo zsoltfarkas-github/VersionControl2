@@ -18,16 +18,51 @@ namespace RealEstate
         RealEstateEntities context = new RealEstateEntities();
         List<Flat> Flats;
 
+        Excel.Application xlApp;
+        Excel.Workbook xlWB;
+        Excel.Worksheet XlSheet;
+
         public Form1()
         {
             InitializeComponent();
             LoadData();
             dataGridView1.DataSource = context;
+            CreateExcel();
         }
 
         private void LoadData()
         {
             Flats = context.Flats.ToList();
+        }
+
+        public void CreateExcel()
+        {
+            try
+            {
+                xlApp = new Excel.Application();
+                xlWB = xlApp.Workbooks.Add(Missing.Value);
+                XlSheet = xlWB.ActiveSheet;
+
+                //...
+
+                xlApp.Visible = true;
+                xlApp.UserControl = true;
+            }
+            catch (Exception ex)
+            {
+
+                string hiba = string.Format("Error: {0}\nline: {1}", ex.Message, ex.Source);
+                MessageBox.Show(hiba, "Error");
+
+                xlWB.Close(false, Type.Missing, Type.Missing);
+                xlApp.Quit();
+                xlWB = null;
+                xlApp = null;
+            }
+        }
+
+        private void CreateTable()
+        { 
         }
 
     }
