@@ -23,7 +23,35 @@ namespace WindowsFormsApp1
             InitializeComponent();
             Ticks = context.Ticks.ToList();
             dataGridView1.DataSource = Ticks;
-            CreateParams();
+            CreatePortfolio();
+
+            int elemszám = Portfolio.Count();
+            decimal részvényszám = (from x in Portfolio
+                                    select x.Volume).Sum();
+
+            var otp = from x in Ticks
+                      where x.Index.Trim().Equals("OTP")
+                      select new
+                      {
+                          x.Index,
+                          x.Price
+                      };
+            Console.WriteLine("OTP darabszám: " + otp.Count().ToString());
+            var top = from o in otp
+                      where o.Price > 7000
+                      select o;
+            Console.WriteLine("OTP darabszám nagyobb 7000: " + top.Count().ToString());
+            var topsum = (from t in top
+                          select t.Price).Sum();
+
+            DateTime mindátum = (from x in Ticks
+                                 select x.TradingDay).Min();
+            DateTime maxdátum = (from x in Ticks
+                                 select x.TradingDay).Max();
+            int elteltNapokSzáma = (maxdátum - mindátum).Days;
+            Console.WriteLine((elteltNapokSzáma).ToString());
+
+
         }
 
         private void CreatePortfolio()
