@@ -16,7 +16,7 @@ namespace WindowsFormsApp1
 
         PortfolioEntities context = new PortfolioEntities();
         List<Tick> Ticks;
-        List<PortfolioItem> Portfolio = new List<PortfolioItem>;
+        List<PortfolioItem> Portfolio = new List<PortfolioItem>();
 
         public Form1()
         {
@@ -51,7 +51,20 @@ namespace WindowsFormsApp1
             int elteltNapokSzáma = (maxdátum - mindátum).Days;
             Console.WriteLine((elteltNapokSzáma).ToString());
 
-
+            var kapcsolt =
+                from
+                    x in Ticks
+                 join
+                    y in Portfolio
+                 on x.Index equals y.Index
+                 select new
+                 {
+                     Index = x.Index,
+                     Date = x.TradingDay,
+                     Value = x.Price,
+                     Volume = y.Volume
+                 };
+            dataGridView1.DataSource = kapcsolt.ToList();
         }
 
         private void CreatePortfolio()
@@ -61,6 +74,21 @@ namespace WindowsFormsApp1
             Portfolio.Add(new PortfolioItem() { Index = "ELMU", Volume = 10 });
 
             dataGridView2.DataSource = Portfolio;
+        }
+
+        private decimal GetPortfolioValue(DateTime date)
+        {
+            decimal value = 0;
+            foreach (var item in Portfolio)
+            {
+                var last = (from x in Ticks
+                            where item.Index == x.Index.Trim()
+                               && date <= x.TradingDay
+                            select x)
+                            .First();
+                value += (decimal)last.Price * item.Volume;
+            }
+            return value;
         }
     }
 }
