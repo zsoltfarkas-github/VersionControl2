@@ -1,4 +1,5 @@
-﻿using _6.gyakorlat.MnbServiceReference;
+﻿using _6.gyakorlat.Entities;
+using _6.gyakorlat.MnbServiceReference;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,11 +14,15 @@ namespace _6.gyakorlat
 {
     public partial class Form1 : Form
     {
+
+        BindingList<RateData> Rates = new BindingList<RateData>();
+
         public Form1()
         {
             InitializeComponent();
 
             meghivas();
+            dataGridView1.DataSource = Rates;
         }
 
         private void meghivas()
